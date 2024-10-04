@@ -1,9 +1,6 @@
 package com.example.hello_world;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,28 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class QuicCalcActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-
-        Button button = findViewById(R.id.button);
-        ButtonHandler toastOnClick = new ButtonHandler(this);
-        button.setOnClickListener(toastOnClick);
-
-        Button quicCalc = findViewById(R.id.calcButton);
-        quicCalc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent calc = new Intent(MainActivity.this, QuicCalcActivity.class);
-                startActivity(calc);
-            }
-        });
-
-
+        setContentView(R.layout.activity_quic_calc);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
