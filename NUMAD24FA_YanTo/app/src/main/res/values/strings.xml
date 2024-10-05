@@ -14,4 +14,10 @@
     <string name="_7">7</string>
     <string name="_8">8</string>
     <string name="_9">9</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="x">x</string>
+    <string name="equals">=</string>
+    <string name="add">+</string>
+    <string name="subtract">-</string>
 </resources>
