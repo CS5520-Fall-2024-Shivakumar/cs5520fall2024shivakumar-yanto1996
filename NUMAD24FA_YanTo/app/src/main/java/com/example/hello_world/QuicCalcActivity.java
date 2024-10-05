@@ -17,6 +17,9 @@ public class QuicCalcActivity extends AppCompatActivity {
     private String curr;
     private Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnadd, btnminus, btnequals, btndel;
 
+    // Track if an operator has been added
+    private boolean operator_insert = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,95 +48,80 @@ public class QuicCalcActivity extends AppCompatActivity {
         btndel = findViewById(R.id.btnx);
         btnequals = findViewById(R.id.btnequals);
 
-        btn0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "0";
-                display();
+        btn0.setOnClickListener(v -> {
+            curr += "0";
+            display();
+        });
+
+        btn1.setOnClickListener(v -> {
+            curr += "1";
+            display();
+        });
+
+        btn2.setOnClickListener(v -> {
+            curr += "2";
+            display();
+        });
+
+        btn3.setOnClickListener(v -> {
+            curr += "3";
+            display();
+        });
+
+        btn4.setOnClickListener(v -> {
+            curr += "4";
+            display();
+        });
+
+        btn5.setOnClickListener(v -> {
+            curr += "5";
+            display();
+        });
+
+        btn6.setOnClickListener(v -> {
+            curr += "6";
+            display();
+        });
+
+        btn7.setOnClickListener(v -> {
+            curr += "7";
+            display();
+        });
+
+        btn8.setOnClickListener(v -> {
+            curr += "8";
+            display();
+        });
+
+        btn9.setOnClickListener(v -> {
+            curr += "9";
+            display();
+        });
+
+        btndel.setOnClickListener(v -> {
+            delete();
+            display();
+        });
+
+        btnadd.setOnClickListener(v -> {
+            if (!curr.isEmpty()) {
+                if (!operator_insert) {
+                    curr += " + ";
+                    display();
+                    operator_insert = true;
+                }
             }
         });
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "1";
-                display();
+        btnminus.setOnClickListener(v -> {
+            if (!curr.isEmpty()) {
+                if (!operator_insert) {
+                    curr += " - ";
+                    display();
+                    operator_insert = true;
+                }
             }
         });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "2";
-                display();
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "3";
-                display();
-            }
-        });
-
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "4";
-                display();
-            }
-        });
-
-        btn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "5";
-                display();
-            }
-        });
-
-        btn6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "6";
-                display();
-            }
-        });
-
-        btn7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "7";
-                display();
-            }
-        });
-
-        btn8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "8";
-                display();
-            }
-        });
-
-        btn9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                curr = curr + "9";
-                display();
-            }
-        });
-
-        btndel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                delete();
-                display();
-            }
-        });
-
-
     }
 
     public void display() {
@@ -145,7 +133,4 @@ public class QuicCalcActivity extends AppCompatActivity {
             curr = curr.substring(0, curr.length() - 1);
         }
     }
-
-
 }
-
