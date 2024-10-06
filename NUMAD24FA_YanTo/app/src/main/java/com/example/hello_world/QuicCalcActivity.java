@@ -130,7 +130,15 @@ public class QuicCalcActivity extends AppCompatActivity {
 
     public void delete() {
         if (!curr.isEmpty()) {
-            curr = curr.substring(0, curr.length() - 1);
+
+            if (curr.endsWith(" + ") || curr.endsWith(" - ")) {
+                curr = curr.substring(0, curr.length() - 3);
+                operator_insert = false;
+            } else {
+                curr = curr.substring(0, curr.length() - 1);
+            }
+            display();
         }
     }
+
 }
