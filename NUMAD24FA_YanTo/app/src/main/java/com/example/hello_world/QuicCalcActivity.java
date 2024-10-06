@@ -1,7 +1,6 @@
 package com.example.hello_world;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ public class QuicCalcActivity extends AppCompatActivity {
 
     private TextView calcDisplay;
     private String curr;
-    private Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnadd, btnminus, btnequals, btndel;
 
     // Track if an operator has been added
     private boolean operator_insert = false;
@@ -33,20 +31,20 @@ public class QuicCalcActivity extends AppCompatActivity {
 
         calcDisplay = findViewById(R.id.calc_display);
         curr = "";
-        btn0 = findViewById(R.id.btn0);
-        btn1 = findViewById(R.id.btn1);
-        btn2 = findViewById(R.id.btn2);
-        btn3 = findViewById(R.id.btn3);
-        btn4 = findViewById(R.id.btn4);
-        btn5 = findViewById(R.id.btn5);
-        btn6 = findViewById(R.id.btn6);
-        btn7 = findViewById(R.id.btn7);
-        btn8 = findViewById(R.id.btn8);
-        btn9 = findViewById(R.id.btn9);
-        btnadd = findViewById(R.id.btnadd);
-        btnminus = findViewById(R.id.btnsubtract);
-        btndel = findViewById(R.id.btnx);
-        btnequals = findViewById(R.id.btnequals);
+        Button btn0 = findViewById(R.id.btn0);
+        Button btn1 = findViewById(R.id.btn1);
+        Button btn2 = findViewById(R.id.btn2);
+        Button btn3 = findViewById(R.id.btn3);
+        Button btn4 = findViewById(R.id.btn4);
+        Button btn5 = findViewById(R.id.btn5);
+        Button btn6 = findViewById(R.id.btn6);
+        Button btn7 = findViewById(R.id.btn7);
+        Button btn8 = findViewById(R.id.btn8);
+        Button btn9 = findViewById(R.id.btn9);
+        Button btnadd = findViewById(R.id.btnadd);
+        Button btnminus = findViewById(R.id.btnsubtract);
+        Button btndel = findViewById(R.id.btnx);
+        Button btnequals = findViewById(R.id.btnequals);
 
         btn0.setOnClickListener(v -> {
             curr += "0";
@@ -122,6 +120,34 @@ public class QuicCalcActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnequals.setOnClickListener(v -> {
+            // checks if operator flag is raised and if last char is not empty
+            if (operator_insert && !curr.substring(curr.length() - 1).isEmpty()) {
+                // splits the curr into 3 buffers starting at index 0
+                String[] buffer = curr.split(" ");
+                // constraint so that there can only be a number, operator, and another number
+                if (buffer.length == 3) {
+                    // parse the int from the buffer into an int
+                    int num1 = Integer.parseInt(buffer[0]);
+                    int num2 = Integer.parseInt(buffer[2]);
+                    int result = 0;
+                    // switch statement to calc result based on operator
+                    switch (buffer[1].charAt(0)) {
+                        case '+':
+                            result = num1 + num2;
+                            break;
+                        case '-':
+                            result = num1 - num2;
+                            break;
+                    }
+                    // convert the int back to string
+                    curr = Integer.toString(result);
+                    operator_insert = false;
+                    display();
+                }
+            }
+        });
     }
 
     public void display() {
@@ -129,16 +155,19 @@ public class QuicCalcActivity extends AppCompatActivity {
     }
 
     public void delete() {
+        // check if the current calc string is not empty
         if (!curr.isEmpty()) {
-
+            // check if the last char is an operator
+            // delete operator and the 2 spaces and reset flag
             if (curr.endsWith(" + ") || curr.endsWith(" - ")) {
                 curr = curr.substring(0, curr.length() - 3);
                 operator_insert = false;
-            } else {
+            }
+            // else delete last char
+            else {
                 curr = curr.substring(0, curr.length() - 1);
             }
             display();
         }
     }
-
 }
