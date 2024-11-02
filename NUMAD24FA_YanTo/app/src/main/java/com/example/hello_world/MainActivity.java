@@ -19,9 +19,14 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
-        ButtonHandler toastOnClick = new ButtonHandler(this);
-        button.setOnClickListener(toastOnClick);
+        Button aboutMe = findViewById(R.id.button);
+        aboutMe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewAboutMe = new Intent(MainActivity.this, AboutMeActivity.class);
+                startActivity(viewAboutMe);
+            }
+        });
 
         Button quicCalc = findViewById(R.id.calcButton);
         quicCalc.setOnClickListener(new View.OnClickListener() {
