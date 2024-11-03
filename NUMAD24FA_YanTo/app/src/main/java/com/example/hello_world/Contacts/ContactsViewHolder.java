@@ -11,7 +11,7 @@ public class ContactsViewHolder extends RecyclerView.ViewHolder{
     public TextView name, phone;
     public ContactsViewHolder(@NonNull View itemView) {
         super(itemView);
-        name = itemView.findViewById(R.id.editTextName);
-        phone = itemView.findViewById(R.id.editTextPhone);
+        name = itemView.findViewById(R.id.text_view_name);
+        phone = itemView.findViewById(R.id.text_view_phone);
     }
 }

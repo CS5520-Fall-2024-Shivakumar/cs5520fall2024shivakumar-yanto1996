@@ -1,39 +1,55 @@
 package com.example.hello_world.Contacts;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-
-import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.hello_world.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsCollectorActivity extends AppCompatActivity {
 
-    private LinearLayout contactForm;
-    private EditText name;
-    private EditText phone;
     private RecyclerView recyclerView;
+    private ContactsAdapter contactsAdapter;
+    private List<ContactsModel> contactsModelList;
+
+    private final ActivityResultLauncher<Intent> addContactLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    // Retrieve contact data from the intent
+                    String name = result.getData().getStringExtra("contact_name");
+                    String phone = result.getData().getStringExtra("contact_phone");
+
+                    // Create a new contact and add it to the list
+                    ContactsModel contact = new ContactsModel(name, phone);
+                    contactsModelList.add(contact);
+
+                    // Notify the adapter to update the RecyclerView
+                    contactsAdapter.notifyItemInserted(contactsModelList.size() - 1);
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_contacts_collector);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        recyclerView = findViewById(R.id.recyclerView);
+        contactsModelList = new ArrayList<>();
+        contactsAdapter = new ContactsAdapter(this, contactsModelList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(contactsAdapter);
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(view -> {
+            // Launch AddContactsActivity without request code
+            Intent addContactIntent = new Intent(ContactsCollectorActivity.this, AddContactsActivity.class);
+            addContactLauncher.launch(addContactIntent);
         });
-
-        contactForm = findViewById(R.id.contactForm);
-        name = findViewById(R.id.editTextName);
-        phone = findViewById(R.id.editTextPhone);
-
     }
 }
