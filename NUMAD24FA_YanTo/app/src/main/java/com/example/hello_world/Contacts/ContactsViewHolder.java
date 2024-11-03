@@ -1,9 +1,11 @@
-package com.example.hello_world;
+package com.example.hello_world.Contacts;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.hello_world.R;
 
 public class ContactsViewHolder extends RecyclerView.ViewHolder{
     public TextView name, phone;
