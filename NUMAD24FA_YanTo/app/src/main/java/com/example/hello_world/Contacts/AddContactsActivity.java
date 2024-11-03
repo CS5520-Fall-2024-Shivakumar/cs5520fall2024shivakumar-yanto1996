@@ -1,6 +1,7 @@
 package com.example.hello_world.Contacts;
 
 import android.content.Intent;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -60,9 +61,9 @@ public class AddContactsActivity extends AppCompatActivity {
     private void setButtonEnabled(boolean enabled) {
         doneButton.setEnabled(enabled);
         if (enabled) {
-            doneButton.setTextColor(Color.BLUE); // Set text color for enabled state
+            doneButton.setTextColor(Color.BLUE); // blue for enable
         } else {
-            doneButton.setTextColor(Color.LTGRAY); // Set light gray text for disabled state
+            doneButton.setTextColor(Color.LTGRAY); // gray for disable
         }
     }
 
