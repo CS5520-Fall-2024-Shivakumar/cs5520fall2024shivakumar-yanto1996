@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hello_world.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,16 @@ public class ContactsCollectorActivity extends AppCompatActivity {
 
                         // Notify the adapter to update the RecyclerView
                         contactsAdapter.notifyItemInserted(contactsModelList.size() - 1);
+
+
+                        Snackbar snackbar = Snackbar.make(recyclerView, "Contact added", Snackbar.LENGTH_LONG);
+                        snackbar.setAction("Undo", view -> {
+                            // Action to perform on Undo
+                            int index = contactsModelList.size() - 1;
+                            contactsModelList.remove(index); // Remove last added contact
+                            contactsAdapter.notifyItemRemoved(index);
+                        });
+                        snackbar.show();
                     } else {
                         // Update the existing contact in the list
                         ContactsModel updatedContact = new ContactsModel(name, phone);
@@ -40,6 +51,7 @@ public class ContactsCollectorActivity extends AppCompatActivity {
 
                         // Notify the adapter to update the RecyclerView at the correct position
                         contactsAdapter.notifyItemChanged(position);
+                        Snackbar.make(recyclerView, "Contact updated", Snackbar.LENGTH_SHORT).show();
                     }
                 }
             });
