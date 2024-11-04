@@ -18,21 +18,32 @@ public class ContactsCollectorActivity extends AppCompatActivity {
     private ContactsAdapter contactsAdapter;
     private List<ContactsModel> contactsModelList;
 
-    private final ActivityResultLauncher<Intent> addContactLauncher =
+    private final ActivityResultLauncher<Intent> contactLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     // Retrieve contact data from the intent
                     String name = result.getData().getStringExtra("contact_name");
                     String phone = result.getData().getStringExtra("contact_phone");
+                    int position = result.getData().getIntExtra("contact_position", -1);
 
-                    // Create a new contact and add it to the list
-                    ContactsModel contact = new ContactsModel(name, phone);
-                    contactsModelList.add(contact);
+                    if (position == -1) {
+                        // Create a new contact and add it to the list
+                        ContactsModel newContact = new ContactsModel(name, phone);
+                        contactsModelList.add(newContact);
 
-                    // Notify the adapter to update the RecyclerView
-                    contactsAdapter.notifyItemInserted(contactsModelList.size() - 1);
+                        // Notify the adapter to update the RecyclerView
+                        contactsAdapter.notifyItemInserted(contactsModelList.size() - 1);
+                    } else {
+                        // Update the existing contact in the list
+                        ContactsModel updatedContact = new ContactsModel(name, phone);
+                        contactsModelList.set(position, updatedContact);
+
+                        // Notify the adapter to update the RecyclerView at the correct position
+                        contactsAdapter.notifyItemChanged(position);
+                    }
                 }
             });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +52,14 @@ public class ContactsCollectorActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         contactsModelList = new ArrayList<>();
-        contactsAdapter = new ContactsAdapter(this, contactsModelList);
+        contactsAdapter = new ContactsAdapter(this, contactsModelList, contactLauncher);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(contactsAdapter);
 
         FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(view -> {
-            // Launch AddContactsActivity without request code
             Intent addContactIntent = new Intent(ContactsCollectorActivity.this, AddContactsActivity.class);
-            addContactLauncher.launch(addContactIntent);
+            contactLauncher.launch(addContactIntent);
         });
     }
 }
