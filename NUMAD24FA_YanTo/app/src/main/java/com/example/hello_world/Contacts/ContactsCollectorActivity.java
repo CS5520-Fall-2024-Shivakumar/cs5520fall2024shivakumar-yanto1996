@@ -46,8 +46,9 @@ public class ContactsCollectorActivity extends AppCompatActivity {
                         snackbar.show();
                     } else {
                         // Update the existing contact in the list
-                        ContactsModel updatedContact = new ContactsModel(name, phone);
-                        contactsModelList.set(position, updatedContact);
+                        ContactsModel updatedContact = contactsModelList.get(position);
+                        updatedContact.setName(name);
+                        updatedContact.setPhoneNumber(phone);
 
                         // Notify the adapter to update the RecyclerView at the correct position
                         contactsAdapter.notifyItemChanged(position);
