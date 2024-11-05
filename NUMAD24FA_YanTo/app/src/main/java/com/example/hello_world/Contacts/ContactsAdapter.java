@@ -26,6 +26,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsViewHolder> {
         this.list = list;
         this.contactLauncher = contactLauncher;
     }
+    
     @NonNull
     @Override
     public ContactsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
